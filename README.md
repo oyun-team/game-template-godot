@@ -11,6 +11,7 @@ Bu şablonla yaptığın oyun, Oyun Takımı sitesinde yayınlanır. Telefonda d
 
 ## Başlarken
 1. Bu sayfada **Use this template → Create a new repository** de. Repoyu kendi hesabında **Private** olarak oluştur.
+   **Repo adı kuralı (zorunlu):** `adın_soyadın-oyunun_adı`. Örnek: Berfin Toprak'ın Gece Lambası oyunu `berfin_toprak-gece_lambasi`. Hepsi küçük harf; Türkçe harfleri sadeleştir (ç→c, ğ→g, ı→i, ö→o, ş→s, ü→u); kelimeler arasına `_`, adınla oyunun adı arasına tek bir `-` koy. Böylece hangi oyunu kimin yaptığı görülür. Repo adı sitede görünmez; oyunun adresi `game.json`'daki `slug`'dır (örn. `gece-lambasi`).
 2. Repo ayarlarından (**Settings → Collaborators**) asistanını collaborator olarak ekle.
 3. `game.json` dosyasını doldur: `slug` (oyunun adresi, örn. `uzay-kosusu`), `title`, `author` (takma adın; gerçek adını yazmak zorunda değilsin), `category`, `orientation`. `dir` alanını `build` olarak bırak.
 4. Godot'u aç, **Import** de ve `project/project.godot` dosyasını seç. `main.tscn` ve `main.gd` bir örnek oyun (Hedef Avcısı); onları değiştirip kendi oyununu yap. Resim, ses ve modelleri `project/` içine koy.
@@ -51,7 +52,7 @@ Games made from this template are published on the Oyun Team site. They must wor
 
 [Godot](https://godotengine.org) is a free, open-source game engine: you build scenes in a visual editor and write code in **GDScript**, which looks like Python. You only push the Godot project; GitHub exports it for the web. Download **Godot 4.7** (not the .NET build) from https://godotengine.org/download. Docs: https://docs.godotengine.org.
 
-**Getting started:** click **Use this template**, create a **private** repo on your account, and add your TA as a collaborator. Fill in `game.json` (`slug`, `title`, `author` as a nickname, `category`, `orientation`; leave `dir` as `build`). In Godot, **Import** `project/project.godot`. `main.tscn` and `main.gd` are an example game, Target Hunter, that you can replace.
+**Getting started:** click **Use this template**, create a **private** repo on your account named `firstname_lastname-game_name` (a strict rule, so we can see who made what: for example `berfin_toprak-gece_lambasi`; lowercase, Turkish letters made plain, `_` between words, one `-` between your name and the game; details in section 2.9 of [AGENTS.md](AGENTS.md)), and add your TA as a collaborator. Fill in `game.json` (`slug`, `title`, `author` as a nickname, `category`, `orientation`; leave `dir` as `build`). In Godot, **Import** `project/project.godot`. `main.tscn` and `main.gd` are an example game, Target Hunter, that you can replace.
 
 **Godot rules:** GDScript only (C# Godot games are not supported on this site). Keep the **Compatibility** renderer. Don't change the **Web** preset in `project/export_presets.cfg`; **Thread Support** must stay off. The engine itself is about 40 MB, which leaves about 20 MB for your files. Must be playable with touch (mouse clicks become touches; use `InputEventScreenTouch`). Nothing inappropriate.
 
