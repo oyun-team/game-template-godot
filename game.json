@@ -1,0 +1,15 @@
+{
+  "slug": "hedef-avcisi",
+  "title": { "tr": "Hedef Avcısı", "en": "Target Hunter" },
+  "description": {
+    "tr": "Hedefler küçülüp kaybolmadan onlara dokun.",
+    "en": "Tap the targets before they shrink away."
+  },
+  "author": "takma-adin",
+  "category": "arcade",
+  "orientation": "portrait",
+  "scores": true,
+  "languages": ["tr", "en"],
+  "thumbnail": "thumbnail.svg",
+  "dir": "build"
+}
