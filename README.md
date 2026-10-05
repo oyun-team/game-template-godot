@@ -16,7 +16,7 @@ Bu şablonla yaptığın oyun, Oyun Takımı sitesinde yayınlanır. Telefonda d
 4. Godot'u aç, **Import** de ve `project/project.godot` dosyasını seç. `main.tscn` ve `main.gd` bir örnek oyun (Hedef Avcısı); onları değiştirip kendi oyununu yap. Resim, ses ve modelleri `project/` içine koy.
 
 ## Kurallar (Godot'a özel)
-- **Sadece GDScript.** C# ile yapılan Godot oyunları web'de çalışmaz.
+- **Sadece GDScript.** C# ile yapılan Godot oyunları bu sitede desteklenmiyor.
 - Ayarlarda renderer **Compatibility** kalmalı (telefon tarayıcıları için).
 - `project/export_presets.cfg` dosyasındaki **Web** ayarını değiştirme. Özellikle **Thread Support** kapalı kalmalı.
 - Godot motoru tek başına yaklaşık 40 MB; senin dosyaların için yaklaşık 20 MB yer kalıyor. Büyük resimleri küçült, müzikleri `.ogg` yap.
@@ -51,7 +51,7 @@ Games made from this template are published on the Oyun Team site. They must wor
 
 **Getting started:** click **Use this template**, create a **private** repo on your account, and add your TA as a collaborator. Fill in `game.json` (`slug`, `title`, `author` as a nickname, `category`, `orientation`; leave `dir` as `build`). In Godot, **Import** `project/project.godot`. `main.tscn` and `main.gd` are an example game, Target Hunter, that you can replace.
 
-**Godot rules:** GDScript only (C# Godot games don't run on the web). Keep the **Compatibility** renderer. Don't change the **Web** preset in `project/export_presets.cfg`; **Thread Support** must stay off. The engine itself is about 40 MB, which leaves about 20 MB for your files. Must be playable with touch (mouse clicks become touches; use `InputEventScreenTouch`). Nothing inappropriate.
+**Godot rules:** GDScript only (C# Godot games are not supported on this site). Keep the **Compatibility** renderer. Don't change the **Web** preset in `project/export_presets.cfg`; **Thread Support** must stay off. The engine itself is about 40 MB, which leaves about 20 MB for your files. Must be playable with touch (mouse clicks become touches; use `InputEventScreenTouch`). Nothing inappropriate.
 
 **Testing:** press **F5** in the editor, or use **Run in Browser** (top right; download the export templates the first time via **Editor → Manage Export Templates**). Outside the site the game runs in **preview mode**, with scores kept only on your computer.
 
