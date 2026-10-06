@@ -1,7 +1,6 @@
 .DS_Store
 node_modules/
 game.zip
-# Godot
-build/
+# Godot (build/ is committed: it is the web export the site publishes)
 .godot/
 *.import

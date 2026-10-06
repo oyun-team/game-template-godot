@@ -32,7 +32,9 @@ if (game.languages && !(Array.isArray(game.languages) && game.languages.length &
 
 const dir = game.dir || "game";
 if (!existsSync(join(dir, "index.html"))) fail(`${dir}/index.html bulunamadı / not found`);
-if (game.thumbnail && !existsSync(join(dir, game.thumbnail))) fail(`thumbnail ${dir}/${game.thumbnail} bulunamadı / not found`);
+// Godot: the site adds web/ (SDK, thumbnail) next to the export in build/ when it publishes.
+const inGame = (file) => existsSync(join(dir, file)) || (dir === "build" && existsSync(join("web", file)));
+if (game.thumbnail && !inGame(game.thumbnail)) fail(`thumbnail ${dir}/${game.thumbnail} bulunamadı / not found`);
 
 function size(path) {
   const s = statSync(path);
