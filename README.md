@@ -4,7 +4,7 @@
 
 Bu şablonla yaptığın oyun, Oyun Takımı sitesinde yayınlanır. Telefonda da bilgisayarda da çalışmalı.
 
-[Godot](https://godotengine.org) ücretsiz, açık kaynaklı bir oyun motorudur. Sahneleri görsel bir editörde kurarsın, kodu Python'a benzeyen **GDScript** ile yazarsın. Repoya sadece Godot projesini gönderirsin; GitHub onu web için kendisi dışa aktarır.
+[Godot](https://godotengine.org) ücretsiz, açık kaynaklı bir oyun motorudur. Sahneleri görsel bir editörde kurarsın, kodu Python'a benzeyen **GDScript** ile yazarsın. Oyunu Godot'ta web için dışa aktarırsın (`build/` klasörü) ve projeyle birlikte repoya gönderirsin; site o hazır oyunu yayınlar.
 
 - İndir: https://godotengine.org/download (**Godot 4.7**, .NET olmayan sürüm)
 - Belgeler: https://docs.godotengine.org
@@ -41,9 +41,11 @@ Oyun.resumed.connect(func(): ...)
 Skor kullanmıyorsan `game.json`'da `"scores": false` yap.
 
 ## Teslim
-Her push'ta GitHub oyunu web için dışa aktarır ve kontrol eder (**Actions** sekmesinde görünür; kırmızı çarpı varsa tıkla ve hatayı oku). Oyun bitince repoyu asistanına transfer et (**Settings → Danger Zone → Transfer**). Repo `oyun-team` organizasyonuna taşındıktan sonra, `main`'e her push oyunu otomatik yayınlar. İlk yayın asistan onayladıktan sonra görünür.
+**Göndermeden önce dışa aktar:** Godot'ta **Project → Export… → Web → Export Project**, dosya adı `build/index.html` (ayar hazır). İlk seferde Godot web şablonlarını indirmeni ister (**Editor → Manage Export Templates → Download**). Sonra `build/` klasörünü de commit'le. Dışa aktarmadan push'larsan sitede eski sürüm kalır. Oyun bitince repoyu asistanına transfer et (**Settings → Danger Zone → Transfer**). Repo `oyun-team` organizasyonuna taşındıktan sonra, `main`'e her push oyunu otomatik yayınlar. İlk yayın asistan onayladıktan sonra görünür.
 
-Transfer yapamıyorsan, oyun bir fork ise, dal adı `main` değilse ya da taşıdıktan sonra **Publish** adımı "skipped" görünüyorsa: [AGENTS.md](AGENTS.md) dosyasının 2. bölümü her durumu adım adım anlatır. Bir yapay zekâ kod asistanı kullanıyorsan ona "AGENTS.md'ye göre oyunu oyun-team'e taşı" demen yeterli.
+Yayın sonucunu GitHub'da son commit'in yanındaki işarette görürsün: ✓ ya da ✗ (**oyun-team / yayın**; üzerine gelince mesajı okunur). GitHub Actions kullanılmaz; site her push'u kendisi alır.
+
+Transfer yapamıyorsan, oyun bir fork ise, dal adı `main` değilse ya da push'tan sonra işaret çıkmıyorsa: [AGENTS.md](AGENTS.md) dosyasının 2. bölümü her durumu adım adım anlatır. Bir yapay zekâ kod asistanı kullanıyorsan ona "AGENTS.md'ye göre oyunu oyun-team'e taşı" demen yeterli.
 
 ---
 
@@ -51,7 +53,7 @@ Transfer yapamıyorsan, oyun bir fork ise, dal adı `main` değilse ya da taşı
 
 Games made from this template are published on the Oyun Team site. They must work on phones and computers.
 
-[Godot](https://godotengine.org) is a free, open-source game engine: you build scenes in a visual editor and write code in **GDScript**, which looks like Python. You only push the Godot project; GitHub exports it for the web. Download **Godot 4.7** (not the .NET build) from https://godotengine.org/download. Docs: https://docs.godotengine.org.
+[Godot](https://godotengine.org) is a free, open-source game engine: you build scenes in a visual editor and write code in **GDScript**, which looks like Python. You export the game for the web in Godot (the `build/` folder) and push it with the project; the site publishes that export. Download **Godot 4.7** (not the .NET build) from https://godotengine.org/download. Docs: https://docs.godotengine.org.
 
 **Getting started:** click **Use this template**, create a **private** repo on your account named `firstname_lastname-game_name` (a strict rule, so we can see who made what: for example `berfin_toprak-gece_lambasi`; lowercase, Turkish letters made plain, `_` between words, one `-` between your name and the game; details in section 2.9 of [AGENTS.md](AGENTS.md)), and add your TA as a collaborator. Fill in `game.json` (`slug`, `title`, `author` as a nickname, `category`, `orientation`; leave `dir` as `build`; optionally also `age` (3, 7, 12, 16 or 18), `audience` and `benefits` (who it suits and what it helps with, in `tr`/`en`) and up to 4 `skills`, which show on the game page). In Godot, **Import** `project/project.godot`. `main.tscn` and `main.gd` are an example game, Target Hunter, that you can replace.
 
@@ -61,4 +63,6 @@ Games made from this template are published on the Oyun Team site. They must wor
 
 **The `Oyun` autoload:** see the code block above; `await Oyun.submit_score(score)` when a round ends. Don't edit `project/oyun.gd`.
 
-**Handing in:** every push exports and checks the game on GitHub (see the **Actions** tab). Transfer the repo to your TA when done. Once it is in `oyun-team`, every push to `main` publishes automatically; the first release appears after the TA approves it. If you can't transfer, the repo is a fork, the branch isn't `main`, or **Publish** shows as skipped after the move, section 2 of [AGENTS.md](AGENTS.md) covers every case step by step; an AI coding assistant can follow it for you ("move this game into oyun-team following AGENTS.md").
+**Before every push, export:** in Godot, **Project → Export… → Web → Export Project** to `build/index.html` (the preset is ready; the first time, download the export templates via **Editor → Manage Export Templates**), then commit the `build/` folder too. Without a fresh export the site keeps the old version.
+
+**Handing in:** transfer the repo to your TA when done. Once it is in `oyun-team`, every push to `main` publishes automatically; the first release appears after the TA approves it. The result shows as a ✓ or ✗ (**oyun-team / yayın**) next to the latest commit on GitHub; no GitHub Actions run, the site picks up each push itself. If you can't transfer, the repo is a fork, the branch isn't `main`, or no mark appears after a push, section 2 of [AGENTS.md](AGENTS.md) covers every case step by step; an AI coding assistant can follow it for you ("move this game into oyun-team following AGENTS.md").
