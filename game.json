@@ -11,5 +11,15 @@
   "scores": true,
   "languages": ["tr", "en"],
   "thumbnail": "thumbnail.svg",
+  "age": 7,
+  "audience": {
+    "tr": "Tek dokunuşla oynanan kısa bir oyun isteyen herkes için.",
+    "en": "Anyone who wants a short game played with taps."
+  },
+  "benefits": {
+    "tr": "Doğru anda dokunmayı ve dikkati toplamayı çalıştırır.",
+    "en": "Practises tapping at the right moment and staying focused."
+  },
+  "skills": ["reflexes", "timing", "focus"],
   "dir": "build"
 }
