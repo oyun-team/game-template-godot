@@ -37,8 +37,28 @@ var player = await Oyun.get_player()    # { "nickname": ... } ya da giriş yapı
 var best = await Oyun.submit_score(42)  # oyun bitince skoru gönder, en iyi skoru döner
 Oyun.paused.connect(func(): ...)        # oyuncu sekmeyi değiştirdi; oyun kendiliğinden durur
 Oyun.resumed.connect(func(): ...)
+Oyun.measure("reaction_ms", 420.0)    # bir denemenin ölçümü (aşağıda "Ölçüm")
 ```
 Skor kullanmıyorsan `game.json`'da `"scores": false` yap.
+
+## Ölçüm: aile çocuğun gelişimini görsün
+Site, çocuğun bir oyunda zamanla nasıl geliştiğini ailesine gösterir. Çocuk sadece kendi önceki oyunlarıyla karşılaştırılır, başka çocuklarla asla. Skor bunu gösteremez (şansa ve zorluğa bağlıdır); bu yüzden oyun her denemede ölçtüğü bir şeyi gönderir.
+
+1. `game.json`'a 1 ile 3 arası `measures` ekle:
+   ```json
+   "measures": [
+     { "id": "reaction_ms", "skill": "reflexes", "unit": "ms", "better": "lower", "label": { "tr": "Tepki süresi", "en": "Reaction time" } }
+   ]
+   ```
+   `unit`: `ms` (süre), `percent` (0-100 oran), `count` (sayı, örn. hata), `level` (ulaşılan seviye). `better`: daha iyisi `lower` (düşük) mü `higher` (yüksek) mi. `skill`, `skills` listesinde de olmalı.
+2. Her denemede bir kez gönder: `Oyun.measure("reaction_ms", 420.0)`. Zorluk değişiyorsa seviyeyi de ekle: `Oyun.measure("reaction_ms", 420.0, 2)`. Site sadece aynı seviyedeki denemeleri karşılaştırır.
+
+İyi ölçüm için:
+- Skoru değil, çocuğun kendi yaptığı tek bir şeyi ölç: bir hedefe dokunma hızı, vurulan hedeflerin oranı, bir dizideki hata sayısı.
+- Oyun duraklarken geçen süreyi sayma: kendi oyun saatini tut (örnek oyunda `clock`).
+- Oyun kuralları öğretirken ve çok kısa turlarda ölçme; şansa bağlı şeyleri ölçme.
+- Oyun dışında bir becerinin geliştiğini söyleme ("dikkati artırır" yazma); ne çalıştırdığını yaz.
+- Ölçüm yoksa aile sadece oyun süresini görür. `node scripts/check.mjs` bunu uyarı olarak söyler.
 
 ## Teslim
 **Göndermeden önce dışa aktar:** Godot'ta **Project → Export… → Web → Export Project**, dosya adı `build/index.html` (ayar hazır). İlk seferde Godot web şablonlarını indirmeni ister (**Editor → Manage Export Templates → Download**). Sonra `build/` klasörünü de commit'le. Dışa aktarmadan push'larsan sitede eski sürüm kalır. Oyun bitince repoyu asistanına transfer et (**Settings → Danger Zone → Transfer**). Repo `oyun-team` organizasyonuna taşındıktan sonra, `main`'e her push oyunu otomatik yayınlar. İlk yayın asistan onayladıktan sonra görünür.
@@ -62,6 +82,8 @@ Games made from this template are published on the Oyun Team site. They must wor
 **Testing:** press **F5** in the editor, or use **Run in Browser** (top right; download the export templates the first time via **Editor → Manage Export Templates**). Outside the site the game runs in **preview mode**, with scores kept only on your computer.
 
 **The `Oyun` autoload:** see the code block above; `await Oyun.submit_score(score)` when a round ends. Don't edit `project/oyun.gd`.
+
+**Measuring (the parents' progress view):** parents see how their child improves in a game, compared only with the child's own earlier play. List 1 to 3 `measures` in `game.json` (`id`, the `skill` it belongs to, `unit` `ms`/`percent`/`count`/`level`, `better` `lower`/`higher`, and a `label`; see the example above and the example game), then call `Oyun.measure(id, value, level)` once per try. Measure one thing the child controls, not the score; use a game clock that stops while paused; pass `level` when the difficulty changes, because only tries at the same level are compared; skip tutorials, very short rounds and anything random. Don't claim a skill improves outside the game. Without measures, parents see play time only.
 
 **Before every push, export:** in Godot, **Project → Export… → Web → Export Project** to `build/index.html` (the preset is ready; the first time, download the export templates via **Editor → Manage Export Templates**), then commit the `build/` folder too. Without a fresh export the site keeps the old version.
 

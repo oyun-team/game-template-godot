@@ -5,6 +5,7 @@
 ##   Oyun.get_language()                  -> "tr" or "en"
 ##   var player = await Oyun.get_player() -> { "nickname": ... } or null when not signed in
 ##   var best = await Oyun.submit_score(42) -> best score (or -1 if it failed)
+##   Oyun.measure("reaction_ms", 420.0)   one try of a measure listed in game.json "measures"
 ##   Oyun.paused.connect(func(): ...)     the player switched tabs: the game is paused for you
 ##   Oyun.resumed.connect(func(): ...)
 ##
@@ -56,6 +57,18 @@ func submit_score(score: int) -> int:
 		return _preview_score(score)
 	var result = await _call(_sdk.submitScore(max(score, 0)))
 	return int(result.best) if result != null else -1
+
+
+## One try of something the game measures for the parent's progress view, for example one
+## reaction time in ms. The id must be listed in game.json "measures". level: the difficulty the
+## try was played at (1, 2, 3...), so only tries of the same difficulty are compared; leave it
+## at 0 when the difficulty never changes.
+func measure(id: String, value: float, level: int = 0) -> void:
+	if _sdk:
+		_sdk.measure(id, value, level)
+	else:
+		var at_level := " (level %d)" % level if level > 0 else ""
+		print("[Oyun] Ölçüm / measure: %s = %.1f%s" % [id, value, at_level])
 
 
 func _set_paused(value: bool) -> void:
