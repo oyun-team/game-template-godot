@@ -15,6 +15,11 @@ var targets: Array = [] # each: { pos, radius, life, max_life, color }
 var score := 0
 var lives := 3
 var spawn_timer := 0.0
+# For the parent's progress view (game.json "measures"): a game clock (it stops while the site
+# pauses the game) and how many targets were tapped or missed.
+var clock := 0.0
+var tapped := 0
+var missed := 0
 
 @onready var score_label: Label = $Hud/Score
 @onready var lives_label: Label = $Hud/Lives
@@ -32,6 +37,8 @@ func _start_round() -> void:
 	score = 0
 	lives = 3
 	spawn_timer = 0.0
+	tapped = 0
+	missed = 0
 	state = "playing"
 	message.text = ""
 	_update_hud()
@@ -39,6 +46,9 @@ func _start_round() -> void:
 
 func _end_round() -> void:
 	state = "over"
+	# Measure: share of targets tapped in time. Very short rounds say little, so they are skipped.
+	if tapped + missed >= 5:
+		Oyun.measure("hit_rate", 100.0 * tapped / (tapped + missed))
 	message.text = "%s\n%s: %d\n\n%s" % [t["over"], t["score"], score, t["again"]]
 	var best: int = await Oyun.submit_score(score)
 	if best >= 0 and state == "over":
@@ -52,6 +62,7 @@ func _spawn() -> void:
 	targets.append({
 		"pos": Vector2(randf_range(radius, size.x - radius), randf_range(140.0 + radius, size.y - radius)),
 		"radius": radius, "life": life, "max_life": life, "color": COLORS.pick_random(),
+		"born": clock, "level": mini(1 + int(score / 10.0), 4), # difficulty step: every 10 points is faster
 	})
 
 
@@ -67,6 +78,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		if event.position.distance_to(target["pos"]) <= _current_radius(target) * 1.15:
 			targets.remove_at(i)
 			score += 1
+			tapped += 1
+			# Measure: one try = time from the target appearing to tapping it, at its difficulty step.
+			Oyun.measure("reaction_ms", (clock - target["born"]) * 1000.0, target["level"])
 			_update_hud()
 			return
 
@@ -74,6 +88,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func _process(delta: float) -> void:
 	# While the player is away the site pauses the game, so this does not run.
 	if state == "playing":
+		clock += delta
 		spawn_timer -= delta
 		if spawn_timer <= 0.0:
 			_spawn()
@@ -82,6 +97,7 @@ func _process(delta: float) -> void:
 			targets[i]["life"] -= delta
 			if targets[i]["life"] <= 0.0:
 				targets.remove_at(i)
+				missed += 1
 				lives -= 1
 				_update_hud()
 				if lives <= 0:

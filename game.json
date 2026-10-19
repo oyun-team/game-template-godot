@@ -21,5 +21,9 @@
     "en": "Practises tapping at the right moment and staying focused."
   },
   "skills": ["reflexes", "timing", "focus"],
+  "measures": [
+    { "id": "reaction_ms", "skill": "reflexes", "unit": "ms", "better": "lower", "label": { "tr": "Tepki süresi", "en": "Reaction time" } },
+    { "id": "hit_rate", "skill": "focus", "unit": "percent", "better": "higher", "label": { "tr": "Vurulan hedef", "en": "Targets hit" } }
+  ],
   "dir": "build"
 }
